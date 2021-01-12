@@ -1,23 +1,113 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import store from '../store'
 
+// const Home = ()=> import('../views/home/Home')
+// const Cart = ()=> import('../views/cart/Cart')
+// const Category = ()=> import('../views/category/Category')
+// const Profile = ()=> import('../views/profile/Profile')
+const Login = ()=>import('../views/profile/login')
+// const Regist = ()=>import('../views/profile/Regist')
+// const Details = ()=>import('../views/Details/Details')
+// const BuyGoods = ()=>import('../views/Details/BuyGoods')
+// const PaymentSuccessful = ()=>import('../views/Buy/PaymentSuccessful')
+// const PaymentFailed = ()=>import('../views/Buy/PaymentFailed')
+// const MyOrder = ()=>import('../views/profile/Myorder/MyOrder')
+
+//安装插件
 Vue.use(VueRouter)
 
+//防止路由访问重复错误
+const replaces = VueRouter.prototype.replace;
+VueRouter.prototype.replace = function replace(location) {
+  return replaces.call(this, location).catch(err => err);
+};
+const pushs = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return pushs.call(this, location).catch(err => err)
+}
+//创建对象
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path:'',
+    redirect:'/login'
   },
+  // {
+  //   path: '/home',
+  //   component:Home
+  // },
+  // {
+  //   path: '/cart',
+  //   component:Cart
+  // },
+  // {
+  //   path: '/category',
+  //   component:Category
+  // },
+  // {
+  //   path: '/profile',
+  //   component:Profile,
+  //   //路由独享守卫，前置守卫
+  //   beforeEnter:(to,from,next)=>{
+  //     console.log('进入守卫');
+  //     console.log("SessionID111:"+sessionStorage.getItem("sessionID"));
+  //     console.log("SessionID111:"+sessionStorage.getItem("sessionID")===null);
+  //     // if(store.getters.checkSessionID){
+  //     //   console.log('路由判断已登录');
+  //     //   console.log("sessionID:"+store.state.user.sessionID);
+  //     //   next()
+  //     // }else{
+  //     //   console.log('路由判断未登录')
+  //     //   console.log("sessionID:"+store.state.user.sessionID);
+  //     //   next('/login')
+  //     // }
+  //     if(sessionStorage.getItem("sessionID")!=null){
+  //       console.log('路由判断已登录');
+  //       // console.log("sessionID:"+store.state.user.sessionID);
+  //       next()
+  //     }else{
+  //       console.log('路由判断未登录')
+  //       // console.log("sessionID:"+store.state.user.sessionID);
+  //       next('/login')
+  //     }
+  //   }
+  // },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+    path: '/login',
+    component:Login
+  },
+  // {
+  //   path: '/regist',
+  //   component:Regist
+  // },
+  // {
+  //   path: '/details',
+  //   // path: '/Details/:id',
+  //   component:Details,
+  //   beforeEnter:(to,from,next)=>{
+  //     console.log('进入守卫');
+  //     next()
+  //   }
+  // },
+  // {
+  //   path: '/buygoods',
+  //   component:BuyGoods
+  // },
+  // {
+  //   //支付成功
+  //   path: '/paymentsuccessful',
+  //   component:PaymentSuccessful
+  // },
+  // {
+  // //  支付失败
+  //   path: '/paymentfailed',
+  //   component:PaymentFailed
+  // },
+  // {
+  //   // 我的订单
+  //   path: '/myorder',
+  //   component:MyOrder
+  // }
 ]
 
 const router = new VueRouter({
